@@ -1,20 +1,26 @@
-import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
 from langgraph_workflow import run_rag_pipeline
+import uvicorn
 
 app = FastAPI()
 
 class RagRequest(BaseModel):
     message: str
-    language: str = "en"  # Default English
-    role: str = "patient" # Accepts 'doctor' or 'patient'
+    user_id: str
+    language: str = "en"
+    role: str = "patient"
 
 @app.post("/rag")
 async def rag_endpoint(req: RagRequest):
     try:
-        # Pass language to the workflow
-        answer = run_rag_pipeline(req.message, role=req.role, language=req.language)
+        # FIX: We are now passing user_id to the pipeline!
+        answer = run_rag_pipeline(
+            message=req.message,
+            role=req.role,
+            language=req.language,
+            user_id=req.user_id 
+        )
         return {"response": answer}
     except Exception as e:
         return {"response": "none", "error": str(e)}
