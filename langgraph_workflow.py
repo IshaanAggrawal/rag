@@ -150,22 +150,17 @@ def get_language_instruction(state: AgentState) -> str:
     # 1. Frontend se aaya hua language code (Default: en)
     lang_code = state.get("language", "en")
     
-    # 2. User ke last message ko analyze karo
-    last_msg = state["messages"][-1].lower()
+    # 2. Logic: Sirf tab Hinglish bolo jab frontend ne explicitly "hi" bheja ho.
+    # Humne auto-detection hata diya hai.
     
-    # Common Hinglish words list
-    hinglish_keywords = ["hai", "kya", "karu", "dard", "mai", "mujhe", "mera", "ka", "ki", "ho", "raha", "tha", "kaisa", "nahi"]
-    
-    # Check agar koi bhi Hindi word match hota hai
-    is_hinglish = any(word in last_msg.split() for word in hinglish_keywords)
-    
-    if lang_code == "hi" or is_hinglish:
-        return """CRITICAL INSTRUCTION: The user is speaking in HINGLISH (Hindi words in English script). 
-        You MUST reply in HINGLISH only. 
+    if lang_code == "hi":
+        return """CRITICAL INSTRUCTION: The user has selected Hindi/Hinglish button. 
+        You MUST reply in HINGLISH (Hindi words in English script) ONLY. 
         Example: 'Haan, main samajh sakta hoon ki chest pain daravana ho sakta hai.' 
         DO NOT reply in pure English."""
     else:
-        return "The user is speaking English. Answer in English."
+        # Agar code "en" hai ya kuch aur hai, toh English hi bolo
+        return "The user has selected English. Answer in English only."
 
 # --- NEW FUNCTION: Fetch History from DynamoDB ---
 def get_dynamo_history_text(user_id):
