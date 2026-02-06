@@ -49,7 +49,7 @@ gyno_store = vectorstores["gyno"]
 logger.info("✅ Vector Stores Loaded.")
 
 # OpenAI Model
-model = ChatOpenAI(model="gpt-4o", temperature=0.1, api_key=OPENAI_API_KEY)
+model = ChatOpenAI(model="gpt-4o-mini", temperature=0.1, api_key=OPENAI_API_KEY)
 
 # ------------------- 2. SYSTEM PROMPTS -------------------
 
@@ -174,7 +174,7 @@ def get_dynamo_history_text(user_id):
         response = table.query(
             KeyConditionExpression=Key('user_id').eq(user_id),
             ScanIndexForward=False, # Latest first
-            Limit=10 # Last 10 interactions only
+            Limit=3 # Last 10 interactions only
         )
         items = response.get('Items', [])
         

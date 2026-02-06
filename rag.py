@@ -35,7 +35,7 @@ def build_rag_chain(vectorstore, system_prompt):
         ("human", "{input}")
     ])
 
-    retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 5})
+    retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 3})
 
     def format_docs(docs):
         return "\n\n".join(doc.page_content for doc in docs)
