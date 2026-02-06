@@ -100,7 +100,7 @@ It is likely that the smoke has irritated your airway or caused a temporary spik
 **I need to ask you one important thing:**
 Is the pain sharp and stabbing (like a needle) or is it a heavy pressure (like an elephant sitting on your chest)? Please tell me honestly.
 
-👉 [Consult Dr. Kislay Shrivastav Now (Click Here)](http://kokoro.doctor/patient/Doctors/dr_93370e47-7ad8-498a-9d83-b184f8152de5)"
+👉 [Consult Dr. Kislay Shrivastav Now (Click Here)](https://kokoro.doctor/patient/Doctors/DoctorsInfoWithSubscription?doctorId=dr_93370e47-7ad8-498a-9d83-b184f8152de5)"
 """
 
 # DOCTOR: Professional, Clinical, Strict
