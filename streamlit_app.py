@@ -131,42 +131,6 @@ lang_code = "en" if language == "English" else "hi"
 user_id = st.sidebar.text_input("Session User ID (for Chat History)", value=st.session_state.user_id)
 st.session_state.user_id = user_id
 
-st.sidebar.divider()
-
-# LLM Config (Only editable / applicable in Direct Mode or when configuring local environment)
-st.sidebar.markdown("### 🤖 LLM Configuration")
-llm_provider = st.sidebar.selectbox(
-    "LLM Provider",
-    ["Default (.env / Auto)", "Ollama (100% Local)", "Groq (Fast Cloud)", "OpenAI (GPT Models)"],
-    index=0
-)
-
-# Show input fields depending on selection
-if llm_provider == "Ollama (100% Local)":
-    os.environ["LLM_PROVIDER"] = "ollama"
-    ollama_model = st.sidebar.text_input("Ollama Model", value=os.getenv("OLLAMA_MODEL", "llama3"))
-    os.environ["OLLAMA_MODEL"] = ollama_model
-    ollama_url = st.sidebar.text_input("Ollama URL", value=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"))
-    os.environ["OLLAMA_BASE_URL"] = ollama_url
-elif llm_provider == "Groq (Fast Cloud)":
-    os.environ["LLM_PROVIDER"] = "groq"
-    groq_api_key = st.sidebar.text_input("Groq API Key", value=os.getenv("GROQ_API_KEY", ""), type="password")
-    if groq_api_key:
-        os.environ["GROQ_API_KEY"] = groq_api_key
-    groq_model = st.sidebar.text_input("Groq Model", value=os.getenv("GROQ_MODEL", "llama3-8b-8192"))
-    os.environ["GROQ_MODEL"] = groq_model
-elif llm_provider == "OpenAI (GPT Models)":
-    os.environ["LLM_PROVIDER"] = "openai"
-    openai_api_key = st.sidebar.text_input("OpenAI API Key", value=os.getenv("OPENAI_API_KEY", ""), type="password")
-    if openai_api_key:
-        os.environ["OPENAI_API_KEY"] = openai_api_key
-    openai_model = st.sidebar.text_input("OpenAI Model", value=os.getenv("OPENAI_MODEL", "gpt-4o-mini"))
-    os.environ["OPENAI_MODEL"] = openai_model
-else:
-    # Auto/env mode
-    if "LLM_PROVIDER" in os.environ:
-        del os.environ["LLM_PROVIDER"]
-
 # Display loaded DB info
 st.sidebar.markdown("### 🗄️ Connected Databases")
 st.sidebar.info("""
