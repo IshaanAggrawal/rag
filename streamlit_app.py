@@ -82,7 +82,7 @@ st.markdown("""
         margin-bottom: 1rem;
     }
 </style>
-""", unsafe_style=allowed_types=True)
+""", unsafe_allow_html=True)
 
 # ----------------- SESSION STATE SETUP -----------------
 if "messages" not in st.session_state:
