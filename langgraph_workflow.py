@@ -12,15 +12,23 @@ from vector import get_vectorstores
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s", datefmt="%H:%M:%S")
 logger = logging.getLogger("MedicalBot")
 
-try:
-    region = os.getenv("AWS_REGION", "ap-south-1")
-    table_name = os.getenv("CHAT_TABLE_NAME", "ChatHistory")
-    dynamodb = boto3.resource('dynamodb', region_name=region)
-    table = dynamodb.Table(table_name)
-    logger.info(f"✅ Connected to DynamoDB: {table_name} in {region}")
-except Exception as e:
-    logger.error(f"⚠️ DynamoDB Connection Error: {e}")
-    table = None
+table = None
+# Only connect to DynamoDB if AWS credentials or IAM role context variables are present
+has_aws_env = os.getenv("AWS_ACCESS_KEY_ID") and os.getenv("AWS_SECRET_ACCESS_KEY")
+is_aws_environment = os.getenv("AWS_EXECUTION_ENV") or os.getenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+
+if has_aws_env or is_aws_environment:
+    try:
+        region = os.getenv("AWS_REGION", "ap-south-1")
+        table_name = os.getenv("CHAT_TABLE_NAME", "ChatHistory")
+        dynamodb = boto3.resource('dynamodb', region_name=region)
+        table = dynamodb.Table(table_name)
+        logger.info(f"✅ Connected to DynamoDB: {table_name} in {region}")
+    except Exception as e:
+        logger.error(f"⚠️ DynamoDB Connection Error: {e}")
+        table = None
+else:
+    logger.info("ℹ️ DynamoDB chat history disabled (AWS credentials not set).")
 
 logger.info("🔄 Loading Vector Stores...")
 vectorstores = get_vectorstores()
