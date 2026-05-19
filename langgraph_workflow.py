@@ -92,9 +92,13 @@ def patient_manager_node(state: AgentState):
     else: return {"next_node": "pt_llm"}
 
 def pt_heart_node(state: AgentState):
+    if not pt_heart_rag:
+        return pt_llm_node(state)
     return {"messages": [pt_heart_rag.invoke({"input": state["messages"][-1], "language_instruction": get_language_instruction(state)})]}
 
 def pt_gyno_node(state: AgentState):
+    if not pt_gyno_rag:
+        return pt_llm_node(state)
     return {"messages": [pt_gyno_rag.invoke({"input": state["messages"][-1], "language_instruction": get_language_instruction(state)})]}
 
 def pt_insurance_node(state: AgentState):
@@ -118,9 +122,13 @@ def doctor_manager_node(state: AgentState):
     else: return {"next_node": "dr_llm"}
 
 def dr_heart_node(state: AgentState):
+    if not dr_heart_rag:
+        return dr_llm_node(state)
     return {"messages": [f"**Clinical Response:**\n{dr_heart_rag.invoke({'input': state['messages'][-1], 'language_instruction': get_language_instruction(state)})}"]}
 
 def dr_gyno_node(state: AgentState):
+    if not dr_gyno_rag:
+        return dr_llm_node(state)
     return {"messages": [f"**Response:**\n{dr_gyno_rag.invoke({'input': state['messages'][-1], 'language_instruction': get_language_instruction(state)})}"]}
 
 def dr_insurance_node(state: AgentState):
