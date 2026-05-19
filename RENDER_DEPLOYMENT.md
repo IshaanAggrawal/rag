@@ -26,7 +26,7 @@ This method is highly recommended on Render's free tier because it avoids cold s
 5. Click **Advanced** to add **Environment Variables**:
    - `LLM_PROVIDER`: `groq`
    - `GROQ_API_KEY`: `gsk_your_groq_api_key_here`
-   - `GROQ_MODEL`: `llama3-8b-8192`
+   - `GROQ_MODEL`: `llama-3.3-70b-versatile`
 6. Click **Deploy Web Service**.
 7. Once deployed, open the Render URL (e.g., `https://kokoro-medical-bot.onrender.com`).
 8. **In the sidebar, check "Direct Pipeline Mode (Bypass FastAPI)"** to run it completely standalone!
@@ -46,7 +46,7 @@ If you require a strict separation of frontend and backend (e.g., if you plan to
 4. Add **Environment Variables**:
    - `LLM_PROVIDER`: `groq`
    - `GROQ_API_KEY`: `gsk_your_groq_api_key_here`
-   - `GROQ_MODEL`: `llama3-8b-8192`
+   - `GROQ_MODEL`: `llama-3.3-70b-versatile`
 5. Click **Deploy Web Service** and copy its generated URL (e.g., `https://kokoro-backend.onrender.com`).
 
 ### Service B: Streamlit Frontend
@@ -59,7 +59,7 @@ If you require a strict separation of frontend and backend (e.g., if you plan to
 4. Click **Advanced** and add the following **Environment Variables**:
    - `LLM_PROVIDER`: `groq`
    - `GROQ_API_KEY`: `gsk_your_groq_api_key_here`
-   - `GROQ_MODEL`: `llama3-8b-8192`
+   - `GROQ_MODEL`: `llama-3.3-70b-versatile`
 5. Deploy the service.
 6. Open your Streamlit application and in the sidebar:
    - Set the **Backend API URL** field to your deployed backend URL: `https://kokoro-backend.onrender.com`

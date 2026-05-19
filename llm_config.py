@@ -28,7 +28,7 @@ def get_llm(temperature=0.1):
     if provider == "groq":
         from langchain_openai import ChatOpenAI
         groq_api_key = os.getenv("GROQ_API_KEY")
-        groq_model = os.getenv("GROQ_MODEL", "llama3-8b-8192")
+        groq_model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
         groq_base_url = os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1")
         
         if not groq_api_key:
