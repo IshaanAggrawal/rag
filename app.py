@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from langgraph_workflow import run_rag_pipeline
 import uvicorn
-from utils import clean_text_for_speech  # <--- 1. Ye naya import add kiya
+from utils import clean_text_for_speech
 
 app = FastAPI()
 

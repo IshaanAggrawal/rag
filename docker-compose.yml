@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # 🩺 FastAPI Backend
+  backend:
+    build: .
+    container_name: kokoro-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - RUNNING_IN_DOCKER=true
+      - LLM_PROVIDER=${LLM_PROVIDER:-ollama}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - GROQ_MODEL=${GROQ_MODEL:-llama3-8b-8192}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o-mini}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-llama3}
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - AWS_REGION=${AWS_REGION:-ap-south-1}
+      - CHAT_TABLE_NAME=${CHAT_TABLE_NAME:-ChatHistory}
+    volumes:
+      - .:/app
+    depends_on:
+      - ollama
+    command: python app.py
+
+  # 🎨 Streamlit Frontend
+  frontend:
+    build: .
+    container_name: kokoro-frontend
+    restart: always
+    ports:
+      - "8501:8501"
+    environment:
+      - RUNNING_IN_DOCKER=true
+      - LLM_PROVIDER=${LLM_PROVIDER:-ollama}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - GROQ_MODEL=${GROQ_MODEL:-llama3-8b-8192}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o-mini}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-llama3}
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - AWS_REGION=${AWS_REGION:-ap-south-1}
+      - CHAT_TABLE_NAME=${CHAT_TABLE_NAME:-ChatHistory}
+    volumes:
+      - .:/app
+    depends_on:
+      - backend
+    command: streamlit run streamlit_app.py --server.port=8501 --server.address=0.0.0.0
+
+  # 🦙 Ollama Local Service (Optional - Runs llama3 locally)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    # Note: To download llama3 model, run `docker exec -it ollama ollama pull llama3` after launching.
+    # If you prefer to use Groq, you don't need this service and can delete/comment it.
+
+volumes:
+  ollama_data:

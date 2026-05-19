@@ -1,12 +1,11 @@
 import re
-import emoji  # <--- Ye import zaroori hai
+import emoji
 
 def clean_text_for_speech(text: str) -> str:
     if not text:
         return ""
     
-    # 1. Emojis hatana (Sabse pehle ye karein)
-    # Ye function text mein se saare emojis dhund kar unhe '' (khali) se replace kar dega
+    # 1. Emojis hatana
     text = emoji.replace_emoji(text, replace='')
     
     # 2. Markdown symbols hatana (*, #, -, `)
